@@ -1,0 +1,247 @@
+###W1_ex1_start_py
+print('Exercise 1')
+###W1_ex1_end
+
+###W1_ex2_start_md
+* `+`, `-` are addition and subtraction,
+* `*`, `/` are multiplication and division,
+* `**` is exponentiation (e.g. `2 ** 3` returns $2^3$),
+* `//` is integer division,
+* `%` is modulus, e.g. `38 % 5` returns the remainder of `38 // 5`.
+###W1_ex2_end
+
+###W1_ex3_start_py
+import numpy as np
+print(np.sqrt(2) * np.cos(2 * np.pi / 5))
+###W1_ex3_end
+
+###W1_ex4_start_py
+my_string = 'Some text characters of my choice.'
+m = 7
+
+# Find out how many times we can print the mth character
+# before exceeding the string length
+N = len(my_string)
+print(N // m)
+
+print(my_string[m - 1])
+print(my_string[2 * m - 1])
+print(my_string[3 * m - 1])
+print(my_string[4 * m - 1])
+###W1_ex4_end
+
+###W1_ex5_start_py
+u = 3
+v = 5
+
+# One possible way...
+same_sign = (u > 0 and v > 0) or (u < 0 and v < 0)
+print(same_sign)
+
+# Another way...
+same_sign = u * v > 0
+print(same_sign)
+###W1_ex5_end
+
+###W1_ex6_start_py
+x = 1.110223024625156e-16
+
+print(x == 0)
+print(x + 1 == 1)
+###W1_ex6_switch_md
+The value given is (just under) half of what we call $\epsilon$, or **machine epsilon** ---
+the distance between 1 and the next closest number in double-precision floating-point representation
+(i.e. using the `float` type).
+
+This means that any real number $a \in [1, 1+\frac{\epsilon}{2})$ has the same floating-point
+representation as $1$ -- it effectively gets rounded down to 1. Similarly, any real number
+$b \in [1 + \frac{\epsilon}{2}, 1 + \epsilon]$ has the same representation as $1 + \epsilon$,
+because it is rounded up. Now, working in finite precision means that we can actually find
+*the* largest floating-point number `x`$>0$ such that `x`$<\frac{\epsilon}{2}$ -- this is the
+value given here.
+
+For a simpler example, if we worked with a system which could only represent numbers up to
+3 significant digits:
+* We could represent the number $1$ and the number $1.01$, but every real number in between
+would get rounded to the closest of these values.
+* This means that, for this system, $\epsilon=0.01$.
+* The largest number `x`$>0$ representable in this system such that `x`$<\frac{\epsilon}{2}=0.005$
+is `x = 0.00499`, since we can store at most 3 significant digits.
+
+Note that, in this system, there is no difference between the value of `1 + 0.001`, `1 + 0.00136`,
+`1 + 0.00487`, etc. --- they all evaluate to `1`. We say that [floating-point addition leads to
+**round-off error**](https://en.wikipedia.org/wiki/Round-off_error#Addition).
+
+Numpy can display the value of $\epsilon$ (and other information about number objects) using `np.finfo()`
+([documentation](https://numpy.org/devdocs/reference/generated/numpy.finfo.html#numpy-finfo)),
+try these commands:
+###W1_ex6_switch_py
+print(np.finfo(1.0))
+np.finfo(1.0).eps
+###W1_ex6_end
+
+###W1_ex7_start_md
+- When `i` is a number object, `bool(i)` returns `False` if `i` is exactly zero, and `True`
+if `i` has a non-zero value.
+- When `i` is a string object, `bool(i)` returns `False` only if `i` is the **empty string**,
+and `True` if the string is not empty. The actual text in the string is not relevant --- to Python,
+it is just a list of characters.
+###W1_ex7_end
+
+###W1_ex8_start_py
+import numpy as np
+
+# Set polynomial coefficient values
+a = 2
+b = .5
+c = -9
+
+# Compute square root of discriminant
+sqrt_delta = np.sqrt(b**2 - 4*a*c)
+
+# Compute the roots
+x1 = (-b - sqrt_delta) / (2*a)
+x2 = (-b + sqrt_delta) / (2*a)
+
+# Display the roots
+print('First root: x1 =', x1)
+print('Second root: x2 =', x2)
+
+# Check the results
+print('Is x1 correct?', a*x1**2 + b*x1 + c == 0)
+print('Is x2 correct?', a*x2**2 + b*x2 + c == 0)
+###W1_ex8_switch_md
+- The `import` statement was moved to the start of the code. Generally, all `import` statements would be together at the top of a script.
+- `numpy` was shortened to `np` to reduce cluttering.
+- Code comments were added to describe the main steps in plain English.
+- Spacing around operators was corrected to follow PEP8 guidelines, to improve readability.
+- To avoid repeating computations twice, the square root of the discriminant was pre-calculated and assigned to a variable once.
+- `print()` was used to display relevant output, together with a few words for context. Note that several values were printed with only one use of the `print()` function, by listing them as input arguments separated by a comma. (For instance, try `print(a, b, c)`.)
+- To check the results, comparison operators were used to create a Boolean value, which more directly indicates the expected result to the reader.
+###W1_ex8_end
+
+###W1_ex9_start_py
+# Create the 2x2 identity matrix
+my_mat = [[1, 0], [0, 1]]
+
+# Append one element to the 2 existing rows
+my_mat[0].append(0)
+my_mat[1].append(0)
+
+# Append the 3rd row to the list of rows
+my_mat.append([0, 0, 1])
+###W1_ex9_end
+
+###W1_ex10_start_py
+m = ['a', 'b', 'c', 'd', 'e']
+m_back = m[::-1]
+print(m_back)
+###W1_ex10_end
+
+###W1_ex11_start_py
+# We can get pi from the math module
+import math
+
+# Create a list of n-1 ones
+n = 6
+my_list = [1] * (n-1)
+
+# Append pi, check length
+my_list.append(math.pi)
+print('Does the list have length n now?', len(my_list) == n)
+
+# Change the value of the 3rd element
+my_list[2] = sum(my_list[4:])
+print(my_list)
+###W1_ex11_end
+
+###W1_ex12_start_py
+grades = {'Alice': {'maths': 'A', 'english': 'C', 'music': 'B'},
+          'Bob': {'maths': 'C', 'english': 'A', 'history': 'A'},
+          'Charlie': {'physics': 'D', 'music': 'A', 'biology': 'A'}}
+
+# Change Alice's maths grade to B
+grades['Alice']['maths'] = 'B'
+
+# Add a C in English for Charlie
+grades['Charlie']['english'] = 'C'
+
+# Add grades for Dara
+grades['Dara'] = {'maths': 'B', 'history': 'D'}
+
+print(grades)
+###W1_ex12_switch_md
+For dictionaries, the same command can be used to change an existing item or to create a new key.
+
+Here, we have nested dictionaries: for instance, `grades['Alice']` should give us the *value* in the dictionary `grades` which corresponds to the *key* `'Alice'` --- and that value is *another dictionary*. This means that we can simply index it by key, just like any other dictionary --- for instance, the value corresponding to the key `'maths'` in the dictionary `grades['Alice']` is accessed with `grades['Alice']['maths']`.
+###W1_ex12_end
+
+###W1_ex13_start_py
+import numpy as np
+
+# Create a random number generator object
+rng = np.random.default_rng()
+
+# Use the generator rng to get a random integer between 1 and 1000
+n = rng.integers(1, 1001)
+
+if n % 21 == 0:
+    # if n is a multiple of 3x7, it's a multiple of both 3 and 7
+    print(n, 'is a multiple of both 3 and 7.')
+elif n % 3 == 0 or n % 7 == 0:
+    # not a multiple of both, but a multiple of either
+    print(n, 'is a multiple of one of 3 or 7.')
+else:
+    # the last possible case: not a multiple of either
+    print(n, 'is not a multiple of 3 nor 7.')
+###W1_ex13_end
+
+###W1_ex14_start_py
+import math
+
+def f(x):
+    if x <= -0.5:    # x is outside the domain of f
+        print('f is not defined for this value of x.')
+        return None  # You can omit this line; I chose to include it for clarity here
+    else:
+        y = (3*x - 2) / math.sqrt(2*x + 1)
+        return y     # Remember to indent the return statement!
+###W1_ex14_end
+
+###W1_ex15_start_py
+def revert_tuple_skip(tup):
+    '''
+    Returns a tuple with every second element of tup,
+    in reverse order.
+    '''
+    # Get every second element
+    tup_skip = tup[::2]
+    
+    # Flip the order
+    return tup_skip[::-1]
+
+# Testing the function...
+print(revert_tuple_skip((1, 2, 3, 4, 5, 6, 7)))
+print(revert_tuple_skip(('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')))
+###W1_ex15_end
+
+###W1_ex16_start_py
+def a_divides_b(a, b):
+    '''
+    Returns whether a divides b. If it does, also returns b/a.
+    '''
+    # Assign a_div_b and c as described
+    if b % a == 0:
+        a_div_b = True
+        c = b // a
+    else:
+        a_div_b = False
+        c = None
+
+    # Return both values
+    return (a_div_b, c)
+
+# Check if it works...
+print(a_divides_b(5, 15))
+print(a_divides_b(7, 15))
+###W1_ex16_end
